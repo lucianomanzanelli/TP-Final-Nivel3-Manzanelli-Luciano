@@ -46,5 +46,18 @@ namespace WebStore_web
             Response.Redirect("Default.aspx", false);
 
         }
+
+        public List<Articulo> ListaArticulos { get; set; }
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            ListaArticulos = negocio.listar();
+
+            List<Articulo> listaFiltrada = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(txtBuscar.Text.ToLower()));
+
+            Session.Add("busqueda", listaFiltrada);
+            Response.Redirect("/", false);
+        }
+
     }
 }
