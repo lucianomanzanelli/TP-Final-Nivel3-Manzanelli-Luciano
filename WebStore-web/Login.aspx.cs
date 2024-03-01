@@ -34,7 +34,7 @@ namespace WebStore_web
                 }
                 else
                 {
-                    lblError.Text = "Email o Contraseña incorrectos";
+                    lblError.Text = "Email o contraseña incorrectos.";
 
                 }
             }

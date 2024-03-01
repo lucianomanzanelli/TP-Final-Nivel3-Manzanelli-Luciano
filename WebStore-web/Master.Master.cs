@@ -16,7 +16,7 @@ namespace WebStore_web
         {
             imgAvatar.ImageUrl = "https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png";
 
-            if (!(Page is Login || Page is Default || Page is Error))
+            if (!(Page is Login || Page is Default || Page is Error || Page is Registro))
             {
                 if (!Seguridad.SesionActiva(Session["persona"]))
                 {

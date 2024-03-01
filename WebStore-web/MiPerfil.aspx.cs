@@ -49,7 +49,43 @@ namespace WebStore_web
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                PersonaNegocio negocio = new PersonaNegocio();
+                Persona user = (Persona)Session["persona"];
 
+                if (txtImagen.PostedFile.FileName != "")
+                {
+                    string ruta = Server.MapPath("./Images/");
+                    txtImagen.PostedFile.SaveAs(ruta + "perfil-" + user.Id + ".jpg");
+                    user.ImagenPerfil = "perfil-" + user.Id + ".jpg";
+                }
+                user.Nombre = txtNombre.Text;
+                user.Apellido = txtApellido.Text;
+
+                if (!string.IsNullOrEmpty(txtPass.Text))
+                {
+                    if (txtPass.Text == user.Pass && txtUpdPass.Text == txtConfPass.Text)
+                    {
+                        user.NuevaPass = txtUpdPass.Text;
+                    }
+                }
+                
+
+                negocio.Actualizar(user);
+                user.NuevaPass = null;
+
+                Image img = (Image)Master.FindControl("imgAvatar");
+                if (string.IsNullOrEmpty(img.ImageUrl))
+                    img.ImageUrl = "~/Images/" + user.ImagenPerfil;
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

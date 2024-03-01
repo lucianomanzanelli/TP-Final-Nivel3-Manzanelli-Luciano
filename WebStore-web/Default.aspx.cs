@@ -20,7 +20,7 @@ namespace WebStore_web
                     repRepetidor.DataSource = ListaArticulos;
                     repRepetidor.DataBind();
 
-                    Session.Clear();
+                    Session.Remove("busqueda");
                 }
                 else
                 {

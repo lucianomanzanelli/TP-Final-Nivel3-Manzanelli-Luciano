@@ -94,3 +94,4 @@ insert into USERS (email, pass, admin) values ('user@user.com', 'user', 0)
 select * from ARTICULOS
 select * from USERS
 select * from FAVORITOS
+

@@ -119,10 +119,10 @@
         }
 
         .square-image {
-        width: 180px; /* Establece el ancho deseado */
-        height: 180px; /* Establece la altura deseada */
-        object-fit: contain; /* Ajusta la imagen dentro del contenedor */
-        margin: 12px;
+            width: 180px; /* Establece el ancho deseado */
+            height: 180px; /* Establece la altura deseada */
+            object-fit: contain; /* Ajusta la imagen dentro del contenedor */
+            margin: 12px;
         }
     </style>
 
@@ -147,6 +147,14 @@
                                 <li class="nav-item">
                                     <a class="nav-link mx-lg-2 active" aria-current="page" href="/">Inicio</a>
                                 </li>
+
+                                <% if ((negocio.Seguridad.SesionActiva(Session["persona"])) && negocio.Seguridad.EsAdmin(Session["persona"]))
+                                    { %>
+                                <li class="nav-item">
+                                    <a class="nav-link mx-lg-2" href="FormularioProductos.aspx">Administrar</a>
+                                </li>
+                                <% } %>
+
                                 <li class="nav-item">
                                     <a class="nav-link mx-lg-2" href="Favoritos.aspx">Favoritos</a>
                                 </li>
@@ -163,27 +171,27 @@
                     </div>
 
 
-                <% if (!(negocio.Seguridad.SesionActiva(Session["persona"])))
-                    { %>
-                <div class="login-reg d-flex">
-                    <a href="Login.aspx" class="login-button">Entrar</a>
-                    <a href="Registro.aspx" class="register-button">Registrarse</a>
-                </div>
-                <% }
-                    else
-                    { %>
-                <asp:Button Text="Salir" ID="btnSalir" OnClick="btnSalir_Click" CssClass="salir-button" runat="server" />
-                <% } %>
+                    <% if (!(negocio.Seguridad.SesionActiva(Session["persona"])))
+                        { %>
+                    <div class="login-reg d-flex">
+                        <a href="Login.aspx" class="login-button">Entrar</a>
+                        <a href="Registro.aspx" class="register-button">Registrarse</a>
+                    </div>
+                    <% }
+                        else
+                        { %>
+                    <asp:Button Text="Salir" ID="btnSalir" OnClick="btnSalir_Click" CssClass="salir-button" runat="server" />
+                    <% } %>
 
-                <asp:Image ID="imgAvatar" Style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%; margin-left: 4px;"
-                    runat="server" />
+                    <asp:Image ID="imgAvatar" Style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%; margin-left: 4px;"
+                        runat="server" />
 
 
-                <div>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </div>
+                    <div>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
                 </div>
             </nav>
 

@@ -39,18 +39,24 @@
         <div class="col-md-4">
             <div class="mb-3">
                 <label class="form-label">Contraseña actual</label>
-                <asp:TextBox runat="server" ID="Contraseña" placeholder="******" TextMode="Password" CssClass="form-control" />
+                <asp:TextBox runat="server" ID="txtPass" placeholder="******" TextMode="Password" CssClass="form-control" />
             </div>
             <div class="mb-3">
                 <label class="form-label">Contraseña nueva</label>
-                <asp:TextBox runat="server" ID="ActualizarPass" placeholder="******" TextMode="Password" CssClass="form-control" />
+                <asp:TextBox runat="server" ID="txtUpdPass" placeholder="******" TextMode="Password" CssClass="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Confirmar contraseña nueva</label>
+                <asp:TextBox runat="server" ID="txtConfPass" placeholder="******" TextMode="Password" CssClass="form-control" />
             </div>
         </div>
 
-        <div class="mb-3">
-            <asp:Button Text="Guardar" ID="btnGuardar" OnClientClick="return validar()" OnClick="btnGuardar_Click"
-                CssClass="btn btn-primary" runat="server" />
-            <a href="Default.aspx">Cancelar</a>
+        <div class="d-flex justify-content-end">
+            <div class="mb-3">
+                <asp:Button Text="Guardar" ID="btnGuardar" OnClientClick="return validar()" OnClick="btnGuardar_Click"
+                    CssClass="btn btn-success" runat="server" />
+                <a href="Default.aspx" class="btn btn-primary">Volver</a>
+            </div>
         </div>
 
 

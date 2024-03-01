@@ -1,10 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="WebStore_web.Login" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="WebStore_web.Registro" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
 
+    
     <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-2">
@@ -26,17 +26,8 @@
                             <asp:Label Text="" ID="lblError" runat="server" ForeColor="Red"/>
                         </div>
 
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                                <label class="form-check-label" for="dropdownCheck">
-                                    Recordarme
-                                </label>
-                            </div>
-                        </div>
-
-                        <asp:Button Text="Ingresar" runat="server" ID="btnIngresar" OnClick="btnIngresar_Click" CssClass="btn btn-primary" />
-                        <a href="/">Cancelar</a>
+                        <asp:Button Text="Registrarme" runat="server" ID="btnRegistro" OnClick="btnRegistro_Click" CssClass="btn btn-success" />
+                        <a href="Default.aspx" class="btn btn-primary">Volver</a>
                     </div>
                 </div>
             </div>

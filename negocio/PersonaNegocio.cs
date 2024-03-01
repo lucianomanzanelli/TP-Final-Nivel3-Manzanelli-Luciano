@@ -47,5 +47,66 @@ namespace negocio
             }
 
         }
+
+        public void Actualizar(Persona persona)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                if (!string.IsNullOrEmpty(persona.NuevaPass))
+                {
+                    datos.setearConsulta("update users set urlImagenPerfil = @imagen, nombre = @nombre, " +
+                    "apellido = @apellido, pass = @pass where id = @id");
+                    datos.setearParametro("@pass", persona.NuevaPass);
+                }
+                else
+                {
+                    datos.setearConsulta("update users set urlImagenPerfil = @imagen, nombre = @nombre, " +
+                    "apellido = @apellido where id = @id");
+                }
+                
+                datos.setearParametro("@imagen", persona.ImagenPerfil != null ? persona.ImagenPerfil : (object)DBNull.Value);
+                datos.setearParametro("@nombre", persona.Nombre);
+                datos.setearParametro("@apellido", persona.Apellido);
+                datos.setearParametro("@id", persona.Id);
+                
+                datos.ejecutarAccion();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public int insertarNuevo(Persona nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("insert into USERS(email, pass, admin) output inserted.id values(@email, @pass, 0)");
+                datos.setearParametro("@email", nuevo.Email);
+                datos.setearParametro("@pass", nuevo.Pass);
+
+                return datos.ejecutarAccionScalar();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
     }
 }
