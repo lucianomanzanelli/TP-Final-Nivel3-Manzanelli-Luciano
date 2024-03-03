@@ -143,7 +143,7 @@ namespace negocio
             {
                 string consulta = "select a.Id, a.Codigo, a.Nombre, a.Descripcion, a.ImagenUrl, a.Precio, c.Descripcion categoria, a.IdCategoria, a.IdMarca, m.Descripcion marca from ARTICULOS A, CATEGORIAS C, MARCAS M where a.IdCategoria = c.Id and a.IdMarca = m.Id and ";
 
-                if (campo == "Nombre")
+                if (campo == "Producto")
                 {
                     switch (criterio)
                     {
@@ -158,50 +158,38 @@ namespace negocio
                             break;
                     }
                 }
-                else if (campo == "Descripción")
-                {
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            consulta += "a.Descripcion like '" + filtro + "%'";
-                            break;
-                        case "Termina con":
-                            consulta += "a.Descripcion like '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += "a.Descripcion like '%" + filtro + "%'";
-                            break;
-                    }
-                }
                 else if (campo == "Marca")
                 {
+                    
+                    consulta += "m.Descripcion = '" + filtro + "'";
+                            
+                }
+                else if (campo == "Precio")
+                {
+                    if (string.IsNullOrEmpty(filtro))
+                    {
+                        filtro = "0";
+                    }
                     switch (criterio)
                     {
-                        case "Comienza con":
-                            consulta += "m.Descripcion like '" + filtro + "%'";
+                        case "Igual a":
+                            consulta += "precio = " + Convert.ToInt32(filtro) ;
                             break;
-                        case "Termina con":
-                            consulta += "m.Descripcion like '%" + filtro + "'";
+                        case "Menor a":
+                            consulta += "precio between 0 and " + Convert.ToInt32(filtro);
+                            break;
+                        case "Mayor a":
+                            consulta += "precio > " + Convert.ToInt32(filtro);
                             break;
                         default:
-                            consulta += "m.Descripcion like '%" + filtro + "%'";
+                            consulta += "precio > 0 ";
                             break;
                     }
                 }
                 else if (campo == "Categoría")
                 {
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            consulta += "c.Descripcion like '" + filtro + "%'";
-                            break;
-                        case "Termina con":
-                            consulta += "c.Descripcion like '%" + filtro + "'";
-                            break;
-                        default:
-                            consulta += "c.Descripcion like '%" + filtro + "%'";
-                            break;
-                    }
+                    consulta += "c.Descripcion = '" + filtro + "'";
+
                 }
 
                 datos.setearConsulta(consulta);

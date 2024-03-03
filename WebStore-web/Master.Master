@@ -124,6 +124,8 @@
             object-fit: contain; /* Ajusta la imagen dentro del contenedor */
             margin: 12px;
         }
+        
+
     </style>
 
 </head>
@@ -151,7 +153,7 @@
                                 <% if ((negocio.Seguridad.SesionActiva(Session["persona"])) && negocio.Seguridad.EsAdmin(Session["persona"]))
                                     { %>
                                 <li class="nav-item">
-                                    <a class="nav-link mx-lg-2" href="FormularioProductos.aspx">Administrar</a>
+                                    <a class="nav-link mx-lg-2" href="AdministrarProductos.aspx">Administrar</a>
                                 </li>
                                 <% } %>
 
@@ -209,9 +211,9 @@
 
 
         <%-- Footer --%>
-        <footer>
+        <footer class="text-center py-2">
             <hr />
-            <div class="text-center ">
+            <div>
                 <p>lucianomanzanelli.dev</p>
             </div>
         </footer>

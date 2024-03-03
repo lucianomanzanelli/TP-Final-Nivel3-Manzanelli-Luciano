@@ -27,4 +27,8 @@
 
     </div>
 
+    <div class="row row-cols-1 row-cols-md-1 g-1" style="margin-top: 60px;">
+        <asp:Label Text="" ID="lblVacio" runat="server" ForeColor="Red" CssClass="d-flex justify-content-center" />
+    </div>
+
 </asp:Content>
