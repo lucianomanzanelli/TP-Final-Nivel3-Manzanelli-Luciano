@@ -30,7 +30,7 @@ namespace WebStore_web
                 if (negocio.Login(persona))
                 {
                     Session.Add("persona", persona);
-                    Response.Redirect("MiPerfil.aspx", false);
+                    Response.Redirect("Default.aspx", false);
                 }
                 else
                 {

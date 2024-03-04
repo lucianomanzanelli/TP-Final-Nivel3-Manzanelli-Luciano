@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="AdministrarProductos.aspx.cs" Inherits="WebStore_web.AdministrarProductos" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="AdministrarArticulos.aspx.cs" Inherits="WebStore_web.AdministrarArticulos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -12,31 +12,35 @@
             </div>
         </div>
         <div class="col-6" style="display: flex; flex-direction: column; justify-content: flex-end;">
-            <div class="mb-3">
-                <asp:CheckBox Text="Filtro Avanzado" runat="server"
+        <div class="mb-3">
+            <div class="form-check">
+                <asp:CheckBox Text="" runat="server"
                     CssClass="" ID="chkAvanzado"
                     AutoPostBack="true"
                     OnCheckedChanged="chkAvanzado_CheckedChanged" />
+                <label class="form-check-label" for="dropdownCheck">Filtro Avanzado</label>
             </div>
         </div>
+            </div>
     </div>
 
     <% if (FiltroAvanzado)
         { %>
-        <div class="row">
-    <div class="col-3">
-        <div class="mb-3">
-            <asp:Label Text="Campo:" runat="server" />
-            <asp:DropDownList runat="server" CssClass="form-control" ID="ddlCampo" AutoPostBack="true" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged">
-                <asp:ListItem Text="Producto" />
-                <asp:ListItem Text="Precio" />
-                <asp:ListItem Text="Marca" />
-                <asp:ListItem Text="Categoría" />
-            </asp:DropDownList>
+    <div class="row">
+        <div class="col-3">
+            <div class="mb-3">
+                <asp:Label Text="Campo:" runat="server" />
+                <asp:DropDownList runat="server" CssClass="form-control" ID="ddlCampo" AutoPostBack="true" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged">
+                    <asp:ListItem Text="Producto" />
+                    <asp:ListItem Text="Precio" />
+                    <asp:ListItem Text="Marca" />
+                    <asp:ListItem Text="Categoría" />
+                </asp:DropDownList>
+            </div>
         </div>
-    </div>
 
-    <% if (Marca()) { %>
+        <% if (Marca())
+            { %>
         <div class="col-3">
             <div class="mb-3">
                 <asp:Label Text="Marca:" runat="server" />
@@ -47,9 +51,10 @@
             <div class="mb-3">
             </div>
         </div>
-    <% } %>
+        <% } %>
 
-    <% else if (Categoria()) { %>
+        <% else if (Categoria())
+            { %>
         <div class="col-3">
             <div class="mb-3">
                 <asp:Label Text="Categoria:" runat="server" />
@@ -60,7 +65,9 @@
             <div class="mb-3">
             </div>
         </div>
-    <% } else { %>
+        <% }
+            else
+            { %>
         <div class="col-3">
             <div class="mb-3">
                 <asp:Label Text="Criterio:" runat="server" />
@@ -78,28 +85,28 @@
             <div class="mb-3">
             </div>
         </div>
-    <% } %>
+        <% } %>
 
-    <div class="row">
-        <div class="col-3">
-            <div class="mb-3">
-                <asp:Button Text="Limpiar" CssClass="btn btn-secondary" ID="btnLimpiar" OnClick="btnLimpiar_Click" runat="server" />
-                <asp:Button Text="Buscar" CssClass="btn btn-success" ID="btnBuscar" OnClick="btnBuscar_Click" runat="server" />
+        <div class="row">
+            <div class="col-3">
+                <div class="mb-3">
+                    <asp:Button Text="Limpiar" CssClass="btn btn-secondary" ID="btnLimpiar" OnClick="btnLimpiar_Click" runat="server" />
+                    <asp:Button Text="Buscar" CssClass="btn btn-success" ID="btnBuscar" OnClick="btnBuscar_Click" runat="server" />
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
-   <%  } %>
+    <%  } %>
 
 
 
     <asp:GridView ID="dgvArticulos" DataKeyNames="Id"
         OnSelectedIndexChanged="dgvArticulos_SelectedIndexChanged"
         OnPageIndexChanging="dgvArticulos_PageIndexChanging"
-        AllowPaging="true" PageSize="6"
+        AllowPaging="true" PageSize="5"
         AutoGenerateColumns="false" CssClass="mt-4 table table-striped" runat="server">
         <Columns>
             <asp:BoundField HeaderText="Código" DataField="Codigo" />

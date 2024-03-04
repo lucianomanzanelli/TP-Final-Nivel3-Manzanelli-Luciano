@@ -67,7 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AdministrarProductos.aspx" />
+    <Content Include="AdministrarArticulos.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Favoritos.aspx" />
@@ -78,12 +78,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdministrarProductos.aspx.cs">
-      <DependentUpon>AdministrarProductos.aspx</DependentUpon>
+    <Compile Include="AdministrarArticulos.aspx.cs">
+      <DependentUpon>AdministrarArticulos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AdministrarProductos.aspx.designer.cs">
-      <DependentUpon>AdministrarProductos.aspx</DependentUpon>
+    <Compile Include="AdministrarArticulos.aspx.designer.cs">
+      <DependentUpon>AdministrarArticulos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

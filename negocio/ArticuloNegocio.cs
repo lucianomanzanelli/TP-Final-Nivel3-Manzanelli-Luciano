@@ -14,14 +14,24 @@ namespace negocio
 {
     public class ArticuloNegocio
     {
-        public List<Articulo> listar()
+        public List<Articulo> listar(string id = "")
         {
             List<Articulo> lista = new List<Articulo>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("select a.Id, a.Codigo, a.Nombre, a.Descripcion, a.ImagenUrl, a.Precio, c.Descripcion categoria, a.IdCategoria, a.IdMarca, m.Descripcion marca from ARTICULOS A, CATEGORIAS C, MARCAS M where a.IdCategoria = c.Id and a.IdMarca = m.Id");
+                string consulta = "select a.Id, a.Codigo, a.Nombre, a.Descripcion, a.ImagenUrl, " +
+                    "a.Precio, c.Descripcion categoria, a.IdCategoria, a.IdMarca, m.Descripcion marca " +
+                    "from ARTICULOS A, CATEGORIAS C, MARCAS M " +
+                    "where a.IdCategoria = c.Id and a.IdMarca = m.Id ";
+
+                if (id != "")
+                {
+                    consulta += "and a.id = " + id;
+                }
+
+                datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -56,6 +66,10 @@ namespace negocio
             {
 
                 throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
 
         }
@@ -166,24 +180,29 @@ namespace negocio
                 }
                 else if (campo == "Precio")
                 {
-                    if (string.IsNullOrEmpty(filtro))
+                    if (string.IsNullOrEmpty(filtro) || string.IsNullOrWhiteSpace(filtro))
                     {
-                        filtro = "0";
+                        consulta += "precio > 0 ";
+
                     }
-                    switch (criterio)
+                    else
                     {
-                        case "Igual a":
-                            consulta += "precio = " + Convert.ToInt32(filtro) ;
-                            break;
-                        case "Menor a":
-                            consulta += "precio between 0 and " + Convert.ToInt32(filtro);
-                            break;
-                        case "Mayor a":
-                            consulta += "precio > " + Convert.ToInt32(filtro);
-                            break;
-                        default:
-                            consulta += "precio > 0 ";
-                            break;
+
+                        switch (criterio)
+                        {
+                            case "Igual a":
+                                consulta += "precio = " + Convert.ToInt32(filtro);
+                                break;
+                            case "Menor a":
+                                consulta += "precio between 0 and " + Convert.ToInt32(filtro);
+                                break;
+                            case "Mayor a":
+                                consulta += "precio > " + Convert.ToInt32(filtro);
+                                break;
+                            default:
+                                consulta += "precio > 0 ";
+                                break;
+                        }
                     }
                 }
                 else if (campo == "Categoría")

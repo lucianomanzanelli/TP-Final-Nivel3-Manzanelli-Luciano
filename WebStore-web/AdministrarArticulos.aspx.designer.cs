@@ -11,7 +11,7 @@ namespace WebStore_web
 {
 
 
-    public partial class AdministrarProductos
+    public partial class AdministrarArticulos
     {
 
         /// <summary>

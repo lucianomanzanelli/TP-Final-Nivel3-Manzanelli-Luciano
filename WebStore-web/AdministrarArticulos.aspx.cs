@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace WebStore_web
 {
-    public partial class AdministrarProductos : System.Web.UI.Page
+    public partial class AdministrarArticulos : System.Web.UI.Page
     {
         public bool FiltroAvanzado { get; set; }
 
@@ -112,18 +112,27 @@ namespace WebStore_web
                                                             ddlCriterio.SelectedItem.ToString(),
                                                             txtFiltroAvanzado.Text);
                 }
-                else if (ddlMarca.SelectedItem != null)
+                //khcjgv
+                else if (ddlCriterio.SelectedItem == null)
                 {
-                    dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
+                    if (ddlMarca.SelectedItem != null)
+                    {
+                        dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
                                                                 "",
                                                                 ddlMarca.SelectedItem.ToString());
-                }
-                else if (ddlCategoria.SelectedItem != null)
-                {
-                    dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
+                    }
+                    else if (ddlCategoria.SelectedItem != null)
+                    {
+                        dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
                                                             "",
                                                             ddlCategoria.SelectedItem.ToString());
+                    }
+                    else
+                    dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
+                                                            "",
+                                                            txtFiltroAvanzado.Text);
                 }
+                
 
                 dgvArticulos.DataBind();
 

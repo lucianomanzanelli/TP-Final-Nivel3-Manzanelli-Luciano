@@ -33,8 +33,8 @@
                                 </div>
                             </div>
 
-                            <asp:Button Text="Ingresar" runat="server" ID="btnIngresar" OnClick="btnIngresar_Click" CssClass="btn btn-primary" />
-                            <a href="/">Cancelar</a>
+                            <asp:Button Text="Ingresar" runat="server" ID="btnIngresar" OnClick="btnIngresar_Click" CssClass="btn btn-success" />
+                            <a href="/" class="btn btn-primary">Cancelar</a>
                         </div>
                     </div>
                 </div>
