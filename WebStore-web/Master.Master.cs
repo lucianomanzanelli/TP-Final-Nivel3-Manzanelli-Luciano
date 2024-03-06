@@ -16,7 +16,8 @@ namespace WebStore_web
         {
             imgAvatar.ImageUrl = "https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png";
 
-            if (!(Page is Login || Page is Default || Page is Error || Page is Registro))
+            if (!(Page is Login || Page is Default || Page is Error || Page is Registro 
+                || Page is Favoritos || Page is Detalles))
             {
                 if (!Seguridad.SesionActiva(Session["persona"]))
                 {
@@ -53,7 +54,7 @@ namespace WebStore_web
             ArticuloNegocio negocio = new ArticuloNegocio();
             ListaArticulos = negocio.listar();
 
-            List<Articulo> listaFiltrada = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(txtBuscar.Text.ToLower()));
+            List<Articulo> listaFiltrada = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(txtBuscar.Value.ToLower()));
 
             Session.Add("busqueda", listaFiltrada);
             Response.Redirect("/", false);

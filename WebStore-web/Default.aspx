@@ -12,12 +12,12 @@
 
                 <div class="col">
                     <div class="card text-center">
-                        <img src='<%# ObtenerUrlImagen(Eval("ImagenUrl")) %>' class="card-img-top square-image" alt="..." onerror='this.onerror = null; this.src="<%# ImagenDeRespaldo() %>"'>
+                        <img id="imgArticulo" src='<%#  negocio.Utilidades.ObtenerUrlImagen(Eval("ImagenUrl")) %>' class="card-img-top square-image" alt="..." onerror='this.onerror = null; this.src="<%#  negocio.Utilidades.ImagenDeRespaldo() %>"'>
                         <div class="card-body">
                             <h5 class="card-title"><%#Eval("Nombre")?.ToString().Length > 14 ? Eval("Nombre").ToString().Substring(0, 14) + "..." : Eval("Nombre") %></h5>
                             <p class="card-text"><%#Eval("Descripcion")?.ToString().Length > 16 ? Eval("Descripcion").ToString().Substring(0, 16) + "..." : Eval("Descripcion") %></p>
                             <p class="card-text"><%#Eval("Precio", "{0:C}") %></p>
-                            <a href="Detalle.aspx?id=<%#Eval("Id") %>" class="btn btn-primary">Ver detalle</a>
+                            <a href="Detalles.aspx?id=<%#Eval("Id") %>" class="btn btn-primary">Ver detalle</a>
                         </div>
                     </div>
                 </div>

@@ -31,6 +31,8 @@ namespace negocio
                     consulta += "and a.id = " + id;
                 }
 
+                consulta += " order by a.nombre";
+
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
 
@@ -46,7 +48,7 @@ namespace negocio
                     if (!(datos.Lector["ImagenUrl"] is DBNull))
                         aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
 
-                    aux.Marca = new Marca(); 
+                    aux.Marca = new Marca();
                     aux.Marca.Id = (int)datos.Lector["IdMarca"];
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
 
@@ -73,6 +75,69 @@ namespace negocio
             }
 
         }
+
+
+        public List<Articulo> listarFavs(string id)
+        {
+            List<Articulo> lista = new List<Articulo>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = "select f.Id, a.Id, a.Codigo, a.Nombre, a.Descripcion, a.ImagenUrl, " +
+                    " a.Precio, c.Descripcion categoria, a.IdCategoria, a.IdMarca, m.Descripcion marca " +
+                    "from FAVORITOS f " +
+                    "join USERS u on u.Id = f.IdUser " +
+                    "join ARTICULOS a on a.Id = f.IdArticulo " +
+                    "join MARCAS m on m.Id = a.IdMarca " +
+                    "join CATEGORIAS c on c.Id = a.IdCategoria " +
+                    "where u.Id = @idUser";
+
+                datos.setearParametro("@idUser", id);
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Articulo aux = new Articulo();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Codigo = Convert.ToString(datos.Lector["codigo"]);
+                    aux.Nombre = Convert.ToString(datos.Lector["nombre"]);
+                    aux.Descripcion = (string)datos.Lector["descripcion"];
+                    aux.Precio = (decimal)datos.Lector["precio"];
+
+                    if (!(datos.Lector["ImagenUrl"] is DBNull))
+                        aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
+
+                    aux.Marca = new Marca();
+                    aux.Marca.Id = (int)datos.Lector["IdMarca"];
+                    aux.Marca.Descripcion = (string)datos.Lector["Marca"];
+
+                    aux.Categoria = new Categoria();
+                    aux.Categoria.Id = (int)datos.Lector["IdCategoria"];
+                    aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
+
+                    lista.Add(aux);
+
+                }
+
+                datos.cerrarConexion();
+                return lista;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+
 
         public void agregar(Articulo nuevo)
         {
@@ -174,9 +239,9 @@ namespace negocio
                 }
                 else if (campo == "Marca")
                 {
-                    
+
                     consulta += "m.Descripcion = '" + filtro + "'";
-                            
+
                 }
                 else if (campo == "Precio")
                 {

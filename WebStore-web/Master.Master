@@ -124,8 +124,6 @@
             object-fit: contain; /* Ajusta la imagen dentro del contenedor */
             margin: 12px;
         }
-        
-
     </style>
 
 </head>
@@ -167,9 +165,24 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-center flex-grow-1 pe-3" role="search">
+                    <%--<div class="d-flex justify-content-center flex-grow-1 pe-3" role="search">
                         <asp:TextBox runat="server" AutoCompleteType="Disabled" ID="txtBuscar" CssClass="form-control mx-lg-2" placeholder="Buscá tu producto" />
+                        <img src="https://cdn-icons-png.flaticon.com/512/3161/3161370.png" alt="Filtro Avanzado" style="width: 20px; height: 20px; margin-left: 5px;" />
                         <asp:Button CssClass="btn btn-outline-success m-auto" Text="Buscar" runat="server" ID="btnBuscar" OnClick="btnBuscar_Click" />
+                    </div>--%>
+
+                    <div>
+                        <div class="input-group" style="margin-right: 16px; width: 488px;">
+                            <input class="form-control" placeholder="Buscá tu producto" autocomplete="off" runat="server" id="txtBuscar" />
+
+                            <button class="btn btn-outline-primary m-auto" text="Buscar">
+                                <img src="https://cdn-icons-png.flaticon.com/512/3161/3161370.png"
+                                    alt="Filtro Avanzado"
+                                    style="width: 20px; height: 20px; margin-left: 5px; margin: 0 auto;" />
+                            </button>
+
+                            <asp:Button CssClass="btn btn-outline-success m-auto" Text="Buscar" runat="server" ID="btnBuscar" OnClick="btnBuscar_Click" />
+                        </div>
                     </div>
 
 
