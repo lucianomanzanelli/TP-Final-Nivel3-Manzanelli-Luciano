@@ -91,8 +91,38 @@ insert into ARTICULOS values ('S01', 'Galaxy S10', 'Una canoa cara', 1, 1, 'http
 insert into USERS (email, pass, admin) values ('admin@admin.com', 'admin', 1)
 insert into USERS (email, pass, admin) values ('user@user.com', 'user', 0)
 
-select * from ARTICULOS
-select * from USERS
-select * from FAVORITOS
-select * from MARCAS
-select * from CATEGORIAS
+
+-----------------------------TESTS----------------------------
+--select * from ARTICULOS
+--select * from USERS
+--select * from FAVORITOS where IdUser = 1
+--select * from MARCAS
+--select * from CATEGORIAS
+
+--select a.Id, a.Codigo, a.Nombre, a.Descripcion, a.ImagenUrl, a.Precio, c.Descripcion categoria, a.IdCategoria, a.IdMarca, m.Descripcion marca 
+--from ARTICULOS A, CATEGORIAS C, MARCAS M 
+--where a.IdCategoria = c.Id and a.IdMarca = m.Id
+
+
+--insert into FAVORITOS values (2, 1)
+--insert into FAVORITOS values (2, 2)
+--insert into FAVORITOS values (1, 3)
+
+--select f.Id 'fav', a.Id 'art', u.Id 'user', a.Codigo, a.Nombre, a.Descripcion, a.ImagenUrl, 
+--       a.Precio, c.Descripcion categoria, a.IdCategoria, a.IdMarca, m.Descripcion marca
+--from FAVORITOS f
+--join USERS u on f.IdUser = u.Id
+--join ARTICULOS a on a.Id = f.IdArticulo
+--join MARCAS m on m.Id = a.IdMarca
+--join CATEGORIAS c on c.Id = a.IdCategoria
+--where u.Id = 2
+
+
+--select a.Id, a.Codigo, a.Nombre, a.Descripcion, a.ImagenUrl, 
+--       a.Precio, c.Descripcion categoria, a.IdCategoria, a.IdMarca, m.Descripcion marca, f.IdUser
+--from ARTICULOS A, CATEGORIAS C, MARCAS M, FAVORITOS f
+--where a.IdCategoria = c.Id and a.IdMarca = m.Id and f.IdArticulo = a.Id 
+--and f.IdUser = 1
+
+
+--SELECT IdArticulo FROM FAVORITOS where IdUser = 1

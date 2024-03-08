@@ -88,6 +88,7 @@ namespace WebStore_web
         protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
         {
             FiltroAvanzado = chkAvanzado.Checked;
+            txtFiltro.Text = string.Empty;
             txtFiltro.Enabled = !FiltroAvanzado;
             ddlCampo_SelectedIndexChanged(sender, e);
         }

@@ -138,6 +138,81 @@ namespace negocio
 
         }
 
+        public void agregarFav(int idArt, int idUser)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("insert into favoritos values (@idUser, @idArt)");
+                datos.setearParametro("@idUser", idUser);
+                datos.setearParametro("@idArt", idArt);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void eliminarFav(int idArt, int idUser)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("delete from favoritos where idUser = @idUser and idArticulo = @idArt");
+                datos.setearParametro("@idUser", idUser);
+                datos.setearParametro("@idArt", idArt);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<int> IDsFavoritos(int idUser)
+        {
+            List<int> lstFavs = new List<int> {};
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT IdArticulo FROM FAVORITOS where IdUser = @idUser");
+                datos.setearParametro("@idUser", idUser);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    lstFavs.Add((int)datos.Lector["idArticulo"]);
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+
+            return lstFavs;
+        }
+
 
         public void agregar(Articulo nuevo)
         {

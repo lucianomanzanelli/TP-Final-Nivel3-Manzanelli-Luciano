@@ -1,6 +1,16 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="WebStore_web.Login" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <script>
+        function Login(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('<%= btnIngresar.ClientID %>').click();
+            }
+        }
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -15,19 +25,19 @@
                         <div class="px-4 py-3">
                             <div class="mb-3">
                                 <label for="exampleDropdownFormEmail1" class="form-label">Email</label>
-                                <asp:TextBox runat="server" ID="txtEmail" placeholder="email@ejemplo.com" CssClass="form-control" />
+                                <asp:TextBox runat="server" ID="txtEmail" onkeydown="Login(event)" placeholder="email@ejemplo.com" CssClass="form-control" />
                             </div>
 
                             <div class="mb-3">
                                 <label for="exampleDropdownFormPassword1" class="form-label">Contraseña</label>
-                                <asp:TextBox runat="server" ID="txtPassword" placeholder="******" CssClass="form-control" TextMode="Password" />
+                                <asp:TextBox runat="server" ID="txtPassword" onkeydown="Login(event)" placeholder="******" CssClass="form-control" TextMode="Password" />
                                 <asp:Label Text="" ID="lblError" runat="server" ForeColor="Red" />
                             </div>
 
                             <div class="mb-3">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                                    <label class="form-check-label" for="dropdownCheck">
+                                    <input type="checkbox" class="form-check-input" id="chkRecordarme" runat="server" onkeydown="Login(event)">
+                                    <label class="form-check-label" for="chkRecordarme">
                                         Recordarme
                                     </label>
                                 </div>

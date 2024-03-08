@@ -115,8 +115,10 @@
             <asp:BoundField HeaderText="Marca" DataField="Marca.Descripcion" />
             <asp:BoundField HeaderText="Categoria" DataField="Categoria.Descripcion" />
             <asp:BoundField HeaderText="Precio" DataField="Precio" DataFormatString="{0:C}" />
-            <asp:CommandField HeaderText="Acción" ShowSelectButton="true" SelectText="✍" />
+            <asp:CommandField HeaderText="Acción" ShowSelectButton="true" SelectText="📝" />
         </Columns>
+        <PagerStyle CssClass="gridview-pager" />
+
     </asp:GridView>
 
     <a href="FormularioArticulo.aspx" class="btn btn-primary">Agregar artículo</a>
