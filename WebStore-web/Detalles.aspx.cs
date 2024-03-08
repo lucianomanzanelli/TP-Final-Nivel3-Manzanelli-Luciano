@@ -43,7 +43,9 @@ namespace WebStore_web
                 Response.Redirect("Default.aspx", false);
             }
 
+            
         }
+        
 
         protected bool esFavorito()
         {
@@ -69,23 +71,6 @@ namespace WebStore_web
             }
         }
 
-        protected void btnVolver_Click(object sender, EventArgs e)
-        {
-            string urlAnterior = "";
-
-            if (Request.UrlReferrer != null)
-            {
-                urlAnterior = Request.UrlReferrer.ToString();
-            }
-            else
-            {
-                // Si no hay URL anterior, redirige a la raíz del sitio
-                urlAnterior = "/";
-            }
-
-            // Redirigir a la página anterior
-            Response.Redirect(urlAnterior);
-        }
 
         List<int> lstFavoritos = new List<int> { };
 
@@ -130,5 +115,6 @@ namespace WebStore_web
                 lblError.Text = "Debes iniciar sesión.";
             }
         }
+
     }
 }

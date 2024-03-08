@@ -60,5 +60,9 @@ namespace WebStore_web
             Response.Redirect("/", false);
         }
 
+        protected void btnFiltrar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

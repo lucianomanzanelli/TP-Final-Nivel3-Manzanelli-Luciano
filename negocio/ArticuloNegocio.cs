@@ -84,7 +84,7 @@ namespace negocio
 
             try
             {
-                string consulta = "select f.Id, a.Id, a.Codigo, a.Nombre, a.Descripcion, a.ImagenUrl, " +
+                string consulta = "select f.Id, a.Id 'idArt', a.Codigo, a.Nombre, a.Descripcion, a.ImagenUrl, " +
                     " a.Precio, c.Descripcion categoria, a.IdCategoria, a.IdMarca, m.Descripcion marca " +
                     "from FAVORITOS f " +
                     "join USERS u on u.Id = f.IdUser " +
@@ -101,7 +101,7 @@ namespace negocio
                 while (datos.Lector.Read())
                 {
                     Articulo aux = new Articulo();
-                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Id = (int)datos.Lector["IdArt"];
                     aux.Codigo = Convert.ToString(datos.Lector["codigo"]);
                     aux.Nombre = Convert.ToString(datos.Lector["nombre"]);
                     aux.Descripcion = (string)datos.Lector["descripcion"];

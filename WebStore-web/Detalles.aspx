@@ -38,9 +38,12 @@
                     </p>
 
                     <div class="d-flex">
-                        <a href="Default.aspx" class="btn btn-primary w-50 text-center me-2">
+                        
+                        <asp:LinkButton Text="" runat="server" ID="btnVolver"
+                            CssClass="btn btn-primary w-50 text-center me-2"
+                            PostBackUrl="~/Default.aspx">
                             <i class="fas fa-undo-alt"></i> Volver
-                        </a>
+                        </asp:LinkButton>
 
 
                         <asp:LinkButton Text="" runat="server" ID="btnFavorito"
@@ -65,7 +68,7 @@
                         <div class="col-md-6 ">
                             <asp:Label Text="" ID="lblError" ForeColor="Red" runat="server" />
                         </div>
-                        
+
                     </div>
 
                 </div>
