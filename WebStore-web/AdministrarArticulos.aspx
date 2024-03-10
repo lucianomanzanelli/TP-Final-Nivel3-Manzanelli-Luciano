@@ -12,16 +12,16 @@
             </div>
         </div>
         <div class="col-6" style="display: flex; flex-direction: column; justify-content: flex-end;">
-        <div class="mb-3">
-            <div class="form-check">
-                <asp:CheckBox Text="" runat="server"
-                    CssClass="" ID="chkAvanzado"
-                    AutoPostBack="true"
-                    OnCheckedChanged="chkAvanzado_CheckedChanged" />
-                <label class="form-check-label" for="dropdownCheck">Filtro Avanzado</label>
+            <div class="mb-3">
+                <div class="form-check">
+                    <asp:CheckBox Text="" runat="server"
+                        CssClass="" ID="chkAvanzado"
+                        AutoPostBack="true"
+                        OnCheckedChanged="chkAvanzado_CheckedChanged" />
+                    <label class="form-check-label" for="dropdownCheck">Filtro Avanzado</label>
+                </div>
             </div>
         </div>
-            </div>
     </div>
 
     <% if (FiltroAvanzado)
@@ -89,6 +89,9 @@
 
         <div class="row">
             <div class="col-3">
+                <div class="mb-3">
+                    <asp:Label Text="" ForeColor="Red" ID="lblError" runat="server" />
+                </div>
                 <div class="mb-3">
                     <asp:Button Text="Limpiar" CssClass="btn btn-secondary" ID="btnLimpiar" OnClick="btnLimpiar_Click" runat="server" />
                     <asp:Button Text="Buscar" CssClass="btn btn-success" ID="btnBuscar" OnClick="btnBuscar_Click" runat="server" />

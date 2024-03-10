@@ -53,7 +53,7 @@ namespace WebStore_web
                 else
                 {
                     lblError.Text = "Email o contraseña incorrectos.";
-
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
                 }
             }
             catch (Exception ex)

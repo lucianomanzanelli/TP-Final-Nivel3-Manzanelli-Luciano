@@ -2,17 +2,15 @@
 using negocio;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Drawing;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace WebStore_web
 {
     public partial class FormularioArticulo : System.Web.UI.Page
     {
         public bool ConfirmaEliminacion { get; set; }
-        public bool EsModificacion { get; set; }
+        public bool EsModificacion { get; set; } 
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,10 +42,13 @@ namespace WebStore_web
                 //Para modificar:
                 string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
 
-                if (id != "" && !IsPostBack)
+                if (id != "")
                 {
                     EsModificacion = true;
+                }
 
+                if (id != "" && !IsPostBack)
+                {
                     ArticuloNegocio negocio = new ArticuloNegocio();
                     Articulo articulo = (negocio.listar(id)[0]);
 
@@ -62,10 +63,9 @@ namespace WebStore_web
 
                     ddlMarca.SelectedValue = articulo.Marca.Id.ToString();
                     ddlCategoria.SelectedValue = articulo.Categoria.Id.ToString();
-                    txtImagenUrl_TextChanged(sender, e);
-
                 }
 
+                cargarImagen();
 
             }
             catch (Exception ex)
@@ -79,16 +79,13 @@ namespace WebStore_web
         {
             try
             {
-                if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtCodigo.Text) 
-                    || string.IsNullOrEmpty(txtPrecio.Text))
+                Page.Validate();
+                if (!Page.IsValid)
                 {
+                    lblError.ForeColor = Color.Red;
                     lblError.Text = "Completa los campos faltantes.";
                     return;
                 }
-
-                Page.Validate();
-                if (!Page.IsValid)
-                    return;
 
                 Articulo nuevo = new Articulo();
                 ArticuloNegocio negocio = new ArticuloNegocio();
@@ -127,7 +124,17 @@ namespace WebStore_web
 
         protected void txtImagenUrl_TextChanged(object sender, EventArgs e)
         {
-            imgArticulo.ImageUrl = txtImagenUrl.Text;
+            cargarImagen();
+        }
+
+        protected void cargarImagen()
+        {
+            if (string.IsNullOrEmpty(txtImagenUrl.Text) || string.IsNullOrWhiteSpace(txtImagenUrl.Text))
+            {
+                imgArticulo.ImageUrl = Utilidades.ImagenDeRespaldo();
+            }
+            else
+                imgArticulo.ImageUrl = txtImagenUrl.Text;
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)

@@ -213,14 +213,6 @@
                                 autocomplete="off" runat="server" id="txtBuscar"
                                 onkeydown="handleEnter(event)" />
 
-                            <%--<button class="btn btn-outline-primary m-auto" text="Filtro">
-                                <i class="fa-solid fa-filter"></i>
-                            </button>--%>
-
-                            <%--<asp:LinkButton class="btn btn-outline-primary m-auto" Text="" runat="server" ID="btnFiltrar" OnClick="btnFiltrar_Click" > 
-                                <i class="fa-solid fa-filter"></i>
-                            </asp:LinkButton>--%>
-
                             <asp:Button CssClass="btn btn-outline-success m-auto" Text="Buscar" runat="server" ID="btnBuscar" OnClick="btnBuscar_Click" />
                         </div>
                     </div>

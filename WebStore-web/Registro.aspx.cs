@@ -2,6 +2,7 @@
 using negocio;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -18,6 +19,15 @@ namespace WebStore_web
 
         protected void btnRegistro_Click(object sender, EventArgs e)
         {
+            Page.Validate();
+            if (!Page.IsValid || string.IsNullOrWhiteSpace(txtEmail.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                lblError.ForeColor = Color.Red;
+                lblError.Text = "Completa los campos faltantes.";
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
+                return;
+            }
+
             Persona user = new Persona();
             PersonaNegocio negocio = new PersonaNegocio();
             user.Email = txtEmail.Text;

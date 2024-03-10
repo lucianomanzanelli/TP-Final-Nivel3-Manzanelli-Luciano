@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -16,6 +17,7 @@ namespace WebStore_web
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            lblError.Text = "";
             if (!Seguridad.EsAdmin(Session["persona"]))
             {
                 Session.Add("error", "Se requieren permisos de admin para acceder");
@@ -29,7 +31,7 @@ namespace WebStore_web
                 CargarArticulos();
 
             }
-            
+
         }
 
         public bool Marca()
@@ -95,6 +97,7 @@ namespace WebStore_web
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
+            lblError.Text = "";
             ddlCampo.SelectedIndex = 0;
             ddlCampo_SelectedIndexChanged(sender, e);
             txtFiltroAvanzado.Text = string.Empty;
@@ -107,13 +110,27 @@ namespace WebStore_web
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
 
+
                 if (ddlCriterio.SelectedItem != null)
                 {
-                    dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
+                    if (ddlCampo.Text == "Precio" && !Regex.IsMatch(txtFiltro.Text, @"[0-9]"))
+                    {
+                        lblError.Text = "Debes escribir numeros.";
+                        Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
+
+                        dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
+                                                                ddlCriterio.SelectedItem.ToString(),
+                                                                "");
+                    }
+                    else
+                    {
+                        lblError.Text = "";
+                        dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
                                                             ddlCriterio.SelectedItem.ToString(),
                                                             txtFiltroAvanzado.Text);
+                    }
                 }
-                //khcjgv
+                
                 else if (ddlCriterio.SelectedItem == null)
                 {
                     if (ddlMarca.SelectedItem != null)
@@ -129,18 +146,19 @@ namespace WebStore_web
                                                             ddlCategoria.SelectedItem.ToString());
                     }
                     else
-                    dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
-                                                            "",
-                                                            txtFiltroAvanzado.Text);
+                        dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
+                                                                "",
+                                                                txtFiltroAvanzado.Text);
                 }
-                
+
 
                 dgvArticulos.DataBind();
 
                 if (dgvArticulos.Rows.Count == 0)
                 {
-                    string ex = "No existen articulos para esos filtros :(";
-                    throw new Exception(ex);
+                    lblError.Text = "No existen articulos para esos filtros :(";
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
+
                 }
 
             }
@@ -171,7 +189,7 @@ namespace WebStore_web
                 ddlCriterio.Items.Add("Menor a");
                 ddlCriterio.Items.Add("Mayor a");
             }
-            
+
             if (ddlCampo.SelectedItem.ToString() == "Marca")
             {
                 CargarMarcas();
@@ -196,6 +214,6 @@ namespace WebStore_web
             Response.Redirect("FormularioArticulo.aspx?id=" + id);
         }
 
-        
+
     }
 }
