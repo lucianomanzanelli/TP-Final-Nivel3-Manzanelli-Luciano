@@ -30,30 +30,42 @@ namespace WebStore_web
                 persona.Email = txtEmail.Text;
                 persona.Pass = txtPassword.Text;
 
-                if (negocio.Login(persona))
+                if (!negocio.validarEmail(txtEmail.Text))
                 {
-                    Session.Add("persona", persona);
-
-                    if (chkRecordarme.Checked)
-                    {
-                        HttpCookie cookie = new HttpCookie("UsuarioRecordado");
-
-                        // Establecer el valor de la cookie (por ejemplo, el ID de usuario)
-                        cookie.Value = persona.Email;
-
-                        // Configurar la expiración de la cookie (por ejemplo, una semana)
-                        cookie.Expires = DateTime.Now.AddDays(21);
-
-                        // Agregar la cookie a la respuesta del servidor
-                        Response.Cookies.Add(cookie);
-                    }
-                    
-                    Response.Redirect("Default.aspx", false);
+                    lblError.Text = "El email no está registrado.";
+                    Page.ClientScript.RegisterStartupScript(this.GetType(),
+                        "HideLabel", "setTimeout(function() { document.getElementById('" +
+                        lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
                 }
                 else
                 {
-                    lblError.Text = "Email o contraseña incorrectos.";
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
+                    if (negocio.Login(persona))
+                    {
+                        Session.Add("persona", persona);
+
+                        //if (chkRecordarme.Checked)
+                        //{
+                        //    HttpCookie cookie = new HttpCookie("UsuarioRecordado");
+
+                        //    // Establecer el valor de la cookie (por ejemplo, el ID de usuario)
+                        //    cookie.Value = persona.Email;
+
+                        //    // Configurar la expiración de la cookie (por ejemplo, una semana)
+                        //    cookie.Expires = DateTime.Now.AddDays(21);
+
+                        //    // Agregar la cookie a la respuesta del servidor
+                        //    Response.Cookies.Add(cookie);
+                        //}
+
+                        Response.Redirect("Default.aspx", false);
+                    }
+                    else
+                    {
+                        lblError.Text = "Email o contraseña incorrectos.";
+                        Page.ClientScript.RegisterStartupScript(this.GetType(),
+                            "HideLabel", "setTimeout(function() { document.getElementById('" +
+                            lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
+                    }
                 }
             }
             catch (Exception ex)

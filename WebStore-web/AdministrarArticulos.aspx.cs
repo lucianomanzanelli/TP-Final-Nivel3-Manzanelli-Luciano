@@ -113,9 +113,16 @@ namespace WebStore_web
 
                 if (ddlCriterio.SelectedItem != null)
                 {
-                    if (ddlCampo.Text == "Precio" && !Regex.IsMatch(txtFiltro.Text, @"[0-9]"))
+                    if (ddlCampo.Text == "Precio" && IsDigitsOnly(txtFiltroAvanzado.Text))
                     {
-                        lblError.Text = "Debes escribir numeros.";
+                        lblError.Text = "";
+                        dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
+                                                            ddlCriterio.SelectedItem.ToString(),
+                                                            txtFiltroAvanzado.Text);
+                    }
+                    else if (ddlCampo.Text == "Precio" && !IsDigitsOnly(txtFiltroAvanzado.Text))
+                    {
+                        lblError.Text = "Debes escribir solo numeros.";
                         Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
 
                         dgvArticulos.DataSource = negocio.filtrar(ddlCampo.SelectedItem.ToString(),
@@ -129,8 +136,9 @@ namespace WebStore_web
                                                             ddlCriterio.SelectedItem.ToString(),
                                                             txtFiltroAvanzado.Text);
                     }
+                    
                 }
-                
+
                 else if (ddlCriterio.SelectedItem == null)
                 {
                     if (ddlMarca.SelectedItem != null)
@@ -170,6 +178,16 @@ namespace WebStore_web
             }
         }
 
+        bool IsDigitsOnly(string str)
+        {
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
+        }
 
         protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
         {

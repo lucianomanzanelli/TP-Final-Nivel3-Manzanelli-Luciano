@@ -29,7 +29,7 @@ namespace WebStore_web
                         txtEmail.Text = user.Email;
                         txtNombre.Text = user.Nombre;
                         txtApellido.Text = user.Apellido;
-                        
+
                         cargarImagen();
                     }
                 }
@@ -63,7 +63,7 @@ namespace WebStore_web
                 if (!Page.IsValid || string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtApellido.Text))
                 {
                     lblGuardar.ForeColor = Color.Red;
-                    lblGuardar.Text = "Complete los datos faltantes!";
+                    lblGuardar.Text = "Completa los datos faltantes!";
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblGuardar.ClientID + "').innerHTML = ''; }, 3000);", true);
                     return;
                 }
@@ -81,13 +81,44 @@ namespace WebStore_web
                 user.Nombre = txtNombre.Text;
                 user.Apellido = txtApellido.Text;
 
-                if (!string.IsNullOrEmpty(txtPass.Text))
+
+
+                if (string.IsNullOrEmpty(txtPass.Text) && string.IsNullOrEmpty(txtUpdPass.Text)
+                    && string.IsNullOrEmpty(txtConfPass.Text))
                 {
-                    if (txtPass.Text == user.Pass && txtUpdPass.Text == txtConfPass.Text)
+                    lblNuevaClave.Text = "";
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(txtPass.Text) && user.Pass == txtPass.Text
+                        && txtUpdPass.Text == txtConfPass.Text)
                     {
                         user.NuevaPass = txtUpdPass.Text;
+                        user.Pass = txtConfPass.Text;
+
+                        EmailService email = new EmailService();
+                        email.armarCorreo(user.Email, "Web Store: cambio de contraseña",
+                            "La contraseña de tu cuenta de Web Store se actualizó, tu nueva clave es: " + txtUpdPass.Text);
+                        email.enviarEmail();
+
+                        lblNuevaClave.ForeColor = Color.Green;
+                        lblNuevaClave.Text = "Contraseña actualizada! Se envió a tu email!";
+                        Page.ClientScript.RegisterStartupScript(this.GetType(),
+                            "HideLabel", "setTimeout(function() { document.getElementById('" +
+                            lblNuevaClave.ClientID + "').innerHTML = ''; }, 3000);", true);
+                    }
+                    else
+                    {
+                        lblNuevaClave.ForeColor = Color.Red;
+                        lblNuevaClave.Text = "Tus contraseñas no coinciden!";
+                        Page.ClientScript.RegisterStartupScript(this.GetType(),
+                                "HideLabel", "setTimeout(function() { document.getElementById('" +
+                                lblNuevaClave.ClientID + "').innerHTML = ''; }, 3000);", true);
                     }
                 }
+                
+
+
 
                 negocio.Actualizar(user);
                 user.NuevaPass = null;
@@ -99,8 +130,10 @@ namespace WebStore_web
 
                 lblGuardar.ForeColor = Color.Green;
                 lblGuardar.Text = "Datos actualizados correctamente!";
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblGuardar.ClientID + "').innerHTML = ''; }, 3000);", true);
-
+                Page.ClientScript.RegisterStartupScript(this.GetType(),
+                    "HideLabel", "setTimeout(function() { document.getElementById('" +
+                    lblGuardar.ClientID + "').innerHTML = ''; }, 3000);", true);
+                
 
                 cargarImagen();
 

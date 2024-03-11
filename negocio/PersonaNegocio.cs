@@ -48,6 +48,36 @@ namespace negocio
 
         }
 
+        public bool validarEmail(string email)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("select email from users where email = @email");
+                datos.setearParametro("@email", email);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void Actualizar(Persona persona)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -64,12 +94,12 @@ namespace negocio
                     datos.setearConsulta("update users set urlImagenPerfil = @imagen, nombre = @nombre, " +
                     "apellido = @apellido where id = @id");
                 }
-                
+
                 datos.setearParametro("@imagen", persona.ImagenPerfil != null ? persona.ImagenPerfil : (object)DBNull.Value);
                 datos.setearParametro("@nombre", persona.Nombre);
                 datos.setearParametro("@apellido", persona.Apellido);
                 datos.setearParametro("@id", persona.Id);
-                
+
                 datos.ejecutarAccion();
 
             }

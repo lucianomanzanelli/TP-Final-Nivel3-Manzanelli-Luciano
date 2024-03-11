@@ -311,6 +311,7 @@ namespace negocio
                             consulta += "Nombre like '%" + filtro + "%'";
                             break;
                     }
+                    consulta += " order by Nombre";
                 }
                 else if (campo == "Marca")
                 {
@@ -344,6 +345,7 @@ namespace negocio
                                 break;
                         }
                     }
+                    consulta += " order by precio";
                 }
                 else if (campo == "Categoría")
                 {

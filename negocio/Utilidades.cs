@@ -35,22 +35,7 @@ namespace negocio
             return "https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png";
         }
 
-        private static bool ImagenExiste(string url)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    HttpResponseMessage response = client.GetAsync(url).Result;
-                    response.EnsureSuccessStatusCode(); // Esto lanzará una excepción si la descarga falla
-                    return true; // La descarga fue exitosa, la imagen es válida
-                }
-                catch (HttpRequestException)
-                {
-                    return false; // Se produce un error al intentar descargar la imagen
-                }
-            }
-        }
+        
     }
 
 }

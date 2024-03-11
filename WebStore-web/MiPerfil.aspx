@@ -76,6 +76,7 @@
             <div class="mb-3">
                 <label class="form-label">Confirmar contraseña nueva</label>
                 <asp:TextBox runat="server" ID="txtConfPass" placeholder="******" TextMode="Password" CssClass="form-control" />
+                <asp:Label Text="" ID="lblNuevaClave" runat="server" ForeColor="Green" />
             </div>
         </div>
 

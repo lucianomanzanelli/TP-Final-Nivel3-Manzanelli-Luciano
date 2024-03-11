@@ -22,7 +22,7 @@ namespace WebStore_web
             Page.Validate();
             if (!Page.IsValid || string.IsNullOrWhiteSpace(txtEmail.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                lblError.ForeColor = Color.Red;
+               
                 lblError.Text = "Completa los campos faltantes.";
                 Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
                 return;
@@ -33,14 +33,26 @@ namespace WebStore_web
             user.Email = txtEmail.Text;
             user.Pass = txtPassword.Text;
 
-            user.Id = negocio.insertarNuevo(user);
-            Session.Add("persona", user);
+            if (negocio.validarEmail(txtEmail.Text))
+            {
+                
+                lblError.Text = "El email ya está registrado.";
+                Page.ClientScript.RegisterStartupScript(this.GetType(), "HideLabel", "setTimeout(function() { document.getElementById('" + lblError.ClientID + "').innerHTML = ''; }, 3000);", true);
 
-            EmailService email = new EmailService();
-            email.armarCorreo(user.Email, "Bienvenid@!", "Tu clave es: " + txtPassword.Text);
-            email.enviarEmail();
+            }
+            else
+            {
+                user.Id = negocio.insertarNuevo(user);
+                Session.Add("persona", user);
 
-            Response.Redirect("Default.aspx", false);
+                EmailService email = new EmailService();
+                email.armarCorreo(user.Email, "Bienvenid@!", "Tu clave es: " + txtPassword.Text);
+                email.enviarEmail();
+
+                Response.Redirect("Default.aspx", false);
+            }
+
+
 
         }
     }
