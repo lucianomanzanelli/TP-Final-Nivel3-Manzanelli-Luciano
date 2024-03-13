@@ -18,8 +18,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <h3>Mi Perfil</h3>
-
+    <h4>Mi Perfil</h4>
+    <hr />
     <div class="row">
         <div class="col-md-4">
             <div class="mb-3 needs-validation was-validated" novalidate="">

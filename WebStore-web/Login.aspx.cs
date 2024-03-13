@@ -42,12 +42,6 @@ namespace WebStore_web
                     if (negocio.Login(persona))
                     {
                         Session.Add("persona", persona);
-
-                        if (chkRecordarme.Checked)
-                        {
-                            //
-                        }
-
                         Response.Redirect("Default.aspx", false);
                     }
                     else

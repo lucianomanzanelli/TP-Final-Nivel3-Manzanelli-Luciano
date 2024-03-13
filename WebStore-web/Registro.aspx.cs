@@ -51,9 +51,6 @@ namespace WebStore_web
 
                 Response.Redirect("Default.aspx", false);
             }
-
-
-
         }
     }
 }

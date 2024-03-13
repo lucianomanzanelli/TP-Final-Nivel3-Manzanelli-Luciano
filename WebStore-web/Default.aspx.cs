@@ -23,8 +23,9 @@ namespace WebStore_web
             {
                 if (Session["busqueda"] != null)
                 {
-
+                    
                     ListaArticulos = (List<Articulo>)Session["busqueda"];
+                    string txtBusqueda = Session["txtBusqueda"].ToString();
 
                     repRepetidor.DataSource = ListaArticulos;
                     repRepetidor.DataBind();
@@ -34,6 +35,9 @@ namespace WebStore_web
                         lblVacio.Text = "No hay articulos que coincidan con la búsqueda.";
                     }
 
+                    lblBusqueda.Text = "Tu búsqueda: " + txtBusqueda;
+
+                    Session.Remove("txtBusqueda");
                     Session.Remove("busqueda");
                 }
                 else
@@ -65,34 +69,41 @@ namespace WebStore_web
 
         protected void btnFavorito_Command(object sender, CommandEventArgs e)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-
-            if (e.CommandName == "MarcarFavorito")
+            if (Seguridad.SesionActiva(Session["persona"]))
             {
-                int idArticulo = Convert.ToInt32(e.CommandArgument);
+                ArticuloNegocio negocio = new ArticuloNegocio();
 
-                // Obtener el ID de la persona desde la sesión
-                Persona persona = (Persona)Session["persona"];
-                int idPersona = (int)persona.Id;
-
-                if (idPersona != 0)
+                if (e.CommandName == "MarcarFavorito")
                 {
-                    // Obtener los IDs de los artículos favoritos del usuario
-                    lstFavoritos = negocio.IDsFavoritos(idPersona);
+                    int idArticulo = Convert.ToInt32(e.CommandArgument);
+
+                    // Obtener el ID de la persona desde la sesión
+                    Persona persona = (Persona)Session["persona"];
+                    int idPersona = (int)persona.Id;
+
+                    if (idPersona != 0)
+                    {
+                        // Obtener los IDs de los artículos favoritos del usuario
+                        lstFavoritos = negocio.IDsFavoritos(idPersona);
+                    }
+
+                    // Si ya es favorito, negocio.eliminar
+                    if (lstFavoritos.Contains(idArticulo))
+                    {
+                        negocio.eliminarFav(idArticulo, idPersona);
+                    }
+                    else
+                        negocio.agregarFav(idArticulo, idPersona);
+
+
+                    // Recargo la página
+                    Response.Redirect(Request.RawUrl, false);
+                    Context.ApplicationInstance.CompleteRequest();
                 }
-
-                // Si ya es favorito, negocio.eliminar
-                if (lstFavoritos.Contains(idArticulo))
-                {
-                    negocio.eliminarFav(idArticulo, idPersona);
-                }
-                else
-                    negocio.agregarFav(idArticulo, idPersona);
-
-
-                // Recargo la página
-                Response.Redirect(Request.RawUrl, false);
-                Context.ApplicationInstance.CompleteRequest();
+            }
+            else
+            {
+                Response.Redirect("Login.aspx", false);
             }
         }
 

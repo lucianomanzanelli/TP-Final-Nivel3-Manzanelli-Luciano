@@ -4,8 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <h2>Tus favoritos:</h2>
-
+    <h4>Mis favoritos</h4>
+    <hr />
     <div class="row row-cols-1 row-cols-md-5 g-4">
 
         <asp:Repeater ID="repRepetidor" runat="server">
@@ -14,7 +14,7 @@
                 <div class="col-lg-3 col-md-5 col-sm-7">
                     <div class="card mb-5 shadow-sm text-center">
                         <div class="d-flex align-items-center justify-content-center">
-                            <img src='<%#  negocio.Utilidades.ObtenerUrlImagen(Eval("ImagenUrl")) %>'
+                            <img src='<%#  negocio.Utilidades.ObtenerUrlImagen(Eval("ImagenUrl").ToString()) %>'
                                 class="img-fluid" style="height: 18rem; object-fit: cover"
                                 onerror='this.onerror = null; this.src="<%#  negocio.Utilidades.ImagenDeRespaldo() %>"'>
                         </div>

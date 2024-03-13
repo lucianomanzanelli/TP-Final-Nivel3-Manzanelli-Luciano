@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace negocio
 {
@@ -20,7 +21,7 @@ namespace negocio
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection(@"Data Source=BANGHO\SQLEXPRESS;Initial Catalog=CATALOGO_WEB_DB;Integrated Security=True");
+            conexion = new SqlConnection(ConfigurationManager.AppSettings["cadenaConexion"]);
             comando = new SqlCommand();
         }
 

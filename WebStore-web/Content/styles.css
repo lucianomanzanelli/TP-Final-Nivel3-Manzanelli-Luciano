@@ -1,0 +1,143 @@
+﻿.navbar-brand {
+    color: #009970;
+    font-size: 24px;
+    font-weight: 500;
+    transition: 0.3s color;
+}
+
+.login-button {
+    background-color: #009970;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s background-color;
+}
+
+    .login-button:hover {
+        background-color: #00b383;
+    }
+
+.register-button {
+    background-color: #0D6EFD;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s background-color;
+}
+
+    .register-button:hover {
+        background-color: #0D8fff;
+    }
+
+.salir-button {
+    background-color: #DC3545;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s background-color;
+}
+
+    .salir-button:hover {
+        background-color: #dc4553;
+    }
+
+
+.login-reg {
+    gap: 4px;
+}
+
+.navbar-toggler {
+    border: none;
+    font-size: 1.25rem;
+}
+
+    .navbar-toggler:focus, .btn-close:focus {
+        box-shadow: none;
+        outline: none;
+    }
+
+.nav-link {
+    color: #666777;
+    font-weight: 500;
+    position: relative;
+}
+
+    .nav-link:hover, .nav-link:active {
+        color: #000;
+    }
+
+@media(min-width: 991px) {
+    .nav-link::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50%;
+        height: 2px;
+        background-color: #009970;
+        visibility: hidden;
+        transition: 0.3s ease-in-out;
+    }
+
+    .nav-link:hover::before, .nav-link.active::before {
+        width: 100%;
+        visibility: visible;
+    }
+}
+
+.main-content {
+    margin-top: 70px;
+}
+
+.navbar-scrolled {
+    background-color: white;
+}
+
+.square-image {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    margin: 12px;
+}
+
+/* Estilos paginacion de AdministrarArticulos */
+.gridview-pager {
+    text-align: center;
+    margin-top: 10px;
+}
+
+    .gridview-pager a,
+    .gridview-pager span {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        margin: 2px;
+        border: 1px solid #007bff;
+        border-radius: 50%;
+        text-align: center;
+        text-decoration: none;
+        color: #007bff;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+        .gridview-pager a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+    .gridview-pager .selected {
+        background-color: #007bff;
+        color: #aeefff;
+    }

@@ -14,7 +14,8 @@
             <div class="col-md-8">
                 <div class="card" style="margin-top: 60px;">
                     <div class="card-body">
-                        <div class="px-4 py-3">
+                        <div class="px-4 py-5">
+                            <h5 class="card-title">Registrarme</h5>
                             <div class="mb-3 needs-validation was-validated" novalidate="">
                                 <label class="form-label">Email</label>
                                 <asp:TextBox runat="server" ID="txtEmail" required="" onkeydown="Login(event)" placeholder="email@ejemplo.com" CssClass="form-control" />
@@ -35,7 +36,7 @@
                             </div>
 
                             <asp:Button Text="Registrarme" runat="server" ID="btnRegistro" OnClick="btnRegistro_Click" CssClass="btn btn-success" />
-                            <a href="Default.aspx" class="btn btn-primary">Volver</a>
+                            <a href="Default.aspx" class="btn btn-primary">Cancelar</a>
                         </div>
                     </div>
                 </div>

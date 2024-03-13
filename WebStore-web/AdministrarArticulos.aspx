@@ -4,6 +4,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
+    <h4>Administrador de artículos</h4>
+    <hr />
     <div class="row">
         <div class="col-6">
             <div class="mb-3">

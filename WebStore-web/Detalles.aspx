@@ -12,7 +12,6 @@
                 <div class="col-md-6">
                     <asp:Image CssClass="card-img-top mb-5 mb-md-0" Width="350px" Height="350px"
                         Style="object-fit: contain;" ID="imgArt"
-                        ImageUrl="https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png"
                         runat="server" />
                 </div>
 

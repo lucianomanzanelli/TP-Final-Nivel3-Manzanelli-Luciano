@@ -11,22 +11,45 @@ namespace negocio
 {
     public static class Utilidades
     {
-        public static string ObtenerUrlImagen(object imagenUrl)
+        public static string ObtenerUrlImagen(string imagenUrl)
         {
-            string url = imagenUrl as string;
+            string url = imagenUrl;
 
-            // Verificar si la URL es válida
             if (Uri.TryCreate(url, UriKind.Absolute, out Uri result) &&
                 (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps))
             {
-
-                return url; // La URL es válida
-
+                if (UrlImagenEsValida(imagenUrl))
+                    return url;
+                else
+                    return ImagenDeRespaldo();
             }
             else
-            {
-                // La URL no es válida, usar una URL predeterminada
                 return ImagenDeRespaldo();
+        }
+
+        private static bool UrlImagenEsValida(string imageUrl)
+        {
+            try
+            {
+                // Intenta hacer una solicitud HTTP a la URL de la imagen
+                using (WebClient client = new WebClient())
+                {
+                    byte[] imageData = client.DownloadData(imageUrl);
+                    // Si la solicitud se realiza correctamente, la URL es válida
+                    if (imageData.Length < 117000)
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            catch (WebException ex)
+            {
+                if (ex.Response is HttpWebResponse response && response.StatusCode == HttpStatusCode.Forbidden)
+                    return true;
+                else
+                    return false;
             }
         }
 

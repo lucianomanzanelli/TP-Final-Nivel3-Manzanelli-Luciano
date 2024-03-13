@@ -14,36 +14,47 @@ namespace WebStore_web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
-
-            if (!string.IsNullOrEmpty(id))
+            try
             {
-                ArticuloNegocio negocio = new ArticuloNegocio();
-                Articulo articulo = (negocio.listar(id)[0]);
+                string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
 
-                Session.Add("articulo", articulo);
-
-                lblMarca.Text = articulo.Marca.Descripcion;
-                lblNombre.Text = articulo.Nombre;
-                lblPrecio.Text = articulo.Precio.ToString("$0.00");
-                lblDescripcion.Text = articulo.Descripcion;
-
-                if (!string.IsNullOrEmpty(articulo.ImagenUrl) || !string.IsNullOrWhiteSpace(articulo.ImagenUrl))
+                if (!string.IsNullOrEmpty(id))
                 {
-                    imgArt.ImageUrl = Utilidades.ObtenerUrlImagen(articulo.ImagenUrl);
+                    ArticuloNegocio negocio = new ArticuloNegocio();
+                    Articulo articulo = (negocio.listar(id)[0]);
+
+                    Session.Add("articulo", articulo);
+
+                    lblMarca.Text = articulo.Marca.Descripcion;
+                    lblNombre.Text = articulo.Nombre;
+                    lblPrecio.Text = articulo.Precio.ToString("$0.00");
+                    lblDescripcion.Text = articulo.Descripcion;
+
+                    if (!string.IsNullOrEmpty(articulo.ImagenUrl) || !string.IsNullOrWhiteSpace(articulo.ImagenUrl))
+                    {
+                        imgArt.ImageUrl = Utilidades.ObtenerUrlImagen(articulo.ImagenUrl);
+
+                    }
+
+                    esFavorito();
 
                 }
-
-                esFavorito();
-
-
+                else
+                {
+                    Response.Redirect("Default.aspx", false);
+                }
             }
-            else
+            catch (ArgumentOutOfRangeException)
             {
                 Response.Redirect("Default.aspx", false);
             }
+            catch (Exception ex)
+            {
+                Session.Add("error", ex.ToString());
+                Response.Redirect("Error.aspx", false);
+            }
 
-            
+
         }
         
 

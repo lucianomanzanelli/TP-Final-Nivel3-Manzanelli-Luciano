@@ -56,13 +56,12 @@ namespace WebStore_web
 
             List<Articulo> listaFiltrada = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(txtBuscar.Value.ToLower()));
 
+            string txtBusqueda = txtBuscar.Value;
+            Session.Add("txtBusqueda", txtBusqueda);
             Session.Add("busqueda", listaFiltrada);
             Response.Redirect("/", false);
         }
 
-        protected void btnFiltrar_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 }

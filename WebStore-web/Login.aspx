@@ -22,7 +22,8 @@
             <div class="col-md-8">
                 <div class="card" style="margin-top: 60px;">
                     <div class="card-body">
-                        <div class="px-4 py-3">
+                        <div class="px-4 py-5">
+                        <h5 class="card-title">Iniciar Sesión</h5>
                             <div class="mb-3 needs-validation was-validated" novalidate="">
                                 <label class="form-label">Email</label>
                                 <asp:TextBox runat="server" ID="txtEmail" required="" onkeydown="Login(event)" placeholder="email@ejemplo.com" CssClass="form-control" />
@@ -36,15 +37,6 @@
                                 <label class="form-label">Contraseña</label>
                                 <asp:TextBox runat="server" ID="txtPassword" onkeydown="Login(event)" placeholder="******" CssClass="form-control" TextMode="Password" />
                                 <asp:Label Text="" ID="lblError" runat="server" ForeColor="Red" />
-                            </div>
-
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="chkRecordarme" runat="server" onkeydown="Login(event)">
-                                    <label class="form-check-label" for="chkRecordarme">
-                                        Recordarme
-                                    </label>
-                                </div>
                             </div>
 
                             <asp:Button Text="Ingresar" runat="server" ID="btnIngresar" OnClick="btnIngresar_Click" CssClass="btn btn-success" />

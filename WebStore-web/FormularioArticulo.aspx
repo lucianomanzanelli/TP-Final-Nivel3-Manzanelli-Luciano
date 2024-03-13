@@ -7,6 +7,8 @@
     <asp:ScriptManager runat="server" ID="ScriptManager1" />
 
     <div class="row">
+            <h5>Nuevo artículo</h5>
+            <hr />
         <div class="col-6">
             <div class="mb-3">
                 <label for="txtId" class="form-label">Id</label>
@@ -68,12 +70,6 @@
                         <label for="txtImagenUrl" class="form-label">URL de la imágen:</label>
                         <asp:TextBox runat="server" ID="txtImagenUrl" CssClass="form-control"
                             AutoPostBack="true" OnTextChanged="txtImagenUrl_TextChanged" MaxLength="1000" />
-                        <%--<asp:RegularExpressionValidator runat="server"
-                            ControlToValidate="txtImagenUrl"
-                            ValidationExpression="[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?"
-                            ErrorMessage="Ingresa una url válida."
-                            Display="Dynamic"
-                            CssClass="invalid-feedback" />--%>
                     </div>
                     <asp:Image runat="server" ID="imgArticulo" CssClass="img-fluid" Style="height: 18rem; object-fit: cover" />
                 </ContentTemplate>
