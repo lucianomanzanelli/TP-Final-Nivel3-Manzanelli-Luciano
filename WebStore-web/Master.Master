@@ -127,7 +127,7 @@
                     <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-4">
                         <h5 class="text-uppercase mb-4 font-weight-bold" style="color: #4ad393;">Contacto</h5>
                         <p>
-                            <a href="https://www.linkedin.com/in/luciano-manzanelli/" class="text-white" style="text-decoration: none; display: inline-block;">
+                            <a href="https://www.linkedin.com/in/luciano-manzanelli/" class="text-white" style="text-decoration: none; display: inline-block;" target="_blank">
                                 <i class="fab fa-linkedin-in mr-3" style="font-size: 1rem;"></i> luciano-manzanelli
                             </a>
                         </p>
@@ -137,7 +137,7 @@
                             </a>
                         </p>
                         <p>
-                            <a href="https://github.com/lucianomanzanelli" class="text-white" style="text-decoration: none; display: inline-block;">
+                            <a href="https://github.com/lucianomanzanelli" class="text-white" style="text-decoration: none; display: inline-block;" target="_blank">
                                 <i class="fab fa-github mr-3" style="font-size: 1rem;"></i> lucianomanzanelli
                             </a>
                         </p>

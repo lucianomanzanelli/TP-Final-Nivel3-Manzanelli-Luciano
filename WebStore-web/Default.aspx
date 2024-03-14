@@ -1,12 +1,55 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebStore_web.Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script>
+        window.onload = function () {
+            var ddl = document.getElementById('ddlPrecio');
+            ddl.options[0].disabled = true;
+        };
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="container" style="padding: 12px;">
-        <asp:Label Text="" ID="lblBusqueda" runat="server" CssClass="lead" />
+
+    <% if (EsBusqueda)
+        { %>
+    <div class="d-flex" style="padding: 12px;">
+        <div class="w-25">
+            <asp:Label Text="" ID="lblBusqueda" runat="server" CssClass="lead" />
+        </div>
+        <div class="w-75 row text-center">
+            <div class="col-md-1">
+                <h5 class="mb-0 mr-2">Filtrar:</h5>
+            </div>
+            <div class="col-md-3 text-start">
+                <asp:DropDownList runat="server" CssClass="form-control" ID="ddlPrecio" AutoPostBack="true" ClientIDMode="Static">
+                    <asp:ListItem Text="Precio" Value="0" />
+                    <asp:ListItem Text="Menor a mayor"/>
+                    <asp:ListItem Text="Mayor a menor" />
+                </asp:DropDownList>
+            </div>
+            <div class="col-md-3 text-start">
+                <asp:DropDownList runat="server" CssClass="form-control" ID="ddlMarca" AutoPostBack="true" ClientIDMode="Static" />
+            </div>
+            <div class="col-md-4 text-start">
+                <div class="row">
+                    <div class="col-md-3 text-start">
+                        <asp:TextBox runat="server" ID="txtMin" placeholder="Min" CssClass="form-control" Style="width: 60px;" />
+                    </div>
+                    <div class="col-md-1 text-center">
+                        <span>-</span>
+                    </div>
+                    <div class="col-md-3 text-start">
+                        <asp:TextBox runat="server" ID="txtMax" placeholder="Max" CssClass="form-control" Style="width: 60px;" />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" data-test-id="sendButton" class="btn btn-success">></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+     <% } %>
 
     <div class="container">
         <div class="row row-cols-1 row-cols-md-5 g-4">

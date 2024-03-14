@@ -3,7 +3,9 @@ using Microsoft.Win32;
 using negocio;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -54,7 +56,12 @@ namespace WebStore_web
             ArticuloNegocio negocio = new ArticuloNegocio();
             ListaArticulos = negocio.listar();
 
-            List<Articulo> listaFiltrada = ListaArticulos.FindAll(x => x.Nombre.ToLower().Contains(txtBuscar.Value.ToLower()));
+            string textoBusqueda = txtBuscar.Value.ToLower();
+
+
+            List<Articulo> listaFiltrada = ListaArticulos.FindAll(x =>
+                                            NormalizarTexto(x.Nombre).ToLower().Contains(NormalizarTexto(textoBusqueda)) ||
+                                            NormalizarTexto(x.Descripcion).ToLower().Contains(NormalizarTexto(textoBusqueda)));
 
             string txtBusqueda = txtBuscar.Value;
             Session.Add("txtBusqueda", txtBusqueda);
@@ -62,6 +69,12 @@ namespace WebStore_web
             Response.Redirect("/", false);
         }
 
+        //tiene en cuenta en la busqueda las palabras con tilde
+        string NormalizarTexto(string texto)
+        {
+            string txtNormalizado = new string(texto.Normalize(NormalizationForm.FormD).Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray());
+            return txtNormalizado;
+        }
 
     }
 }

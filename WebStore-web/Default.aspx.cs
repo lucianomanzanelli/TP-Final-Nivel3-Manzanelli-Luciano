@@ -15,6 +15,8 @@ namespace WebStore_web
     {
         public List<Articulo> ListaArticulos { get; set; }
         List<int> lstFavoritos = new List<int> { };
+        public bool EsBusqueda {  get; set; }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -23,9 +25,14 @@ namespace WebStore_web
             {
                 if (Session["busqueda"] != null)
                 {
-                    
+                    EsBusqueda = true;
+
                     ListaArticulos = (List<Articulo>)Session["busqueda"];
                     string txtBusqueda = Session["txtBusqueda"].ToString();
+
+                    Session.Add("filtroBusq", ListaArticulos);
+
+                    CargarMarcas();
 
                     repRepetidor.DataSource = ListaArticulos;
                     repRepetidor.DataBind();
@@ -35,13 +42,15 @@ namespace WebStore_web
                         lblVacio.Text = "No hay articulos que coincidan con la búsqueda.";
                     }
 
-                    lblBusqueda.Text = "Tu búsqueda: " + txtBusqueda;
+                    lblBusqueda.Text = "Tu búsqueda: '" + txtBusqueda + "'";
 
                     Session.Remove("txtBusqueda");
                     Session.Remove("busqueda");
                 }
                 else
                 {
+                    EsBusqueda = false;
+
                     ArticuloNegocio negocio = new ArticuloNegocio();
                     ListaArticulos = negocio.listar();
 
@@ -64,8 +73,76 @@ namespace WebStore_web
                     repRepetidor.DataBind();
                 }
             }
+            else
+            {
+                EsBusqueda = true;
+                List<Articulo> listaFiltrada = (List<Articulo>)Session["filtroBusq"];
+
+                bool filtroAplicado = false;
+
+
+                //
+
+
+                // Verificar si se ha seleccionado un filtro distinto al precio
+                if ((ddlPrecio.Text == "Menor a mayor" || ddlPrecio.Text == "Mayor a menor") && ddlMarca.SelectedItem != null)
+                {
+                    filtroAplicado = true;
+                }
+
+                if (ddlPrecio.Text == "0" && ddlMarca.Text == "0")
+                {
+                    //Carga la lista completa
+                }
+                else if (ddlPrecio.Text == "0" && ddlMarca.SelectedItem != null)
+                {
+                    listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                }
+                else
+                {
+                    // Aplicar filtros por marca y ordenamiento por precio
+                    if (ddlPrecio.Text == "Menor a mayor")
+                    {
+                        listaFiltrada = listaFiltrada.OrderBy(a => a.Precio).ToList();
+                        if (filtroAplicado && ddlMarca.Text != "0")
+                        {
+                            listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                        }
+                    }
+                    else if (ddlPrecio.Text == "Mayor a menor")
+                    {
+                        listaFiltrada = listaFiltrada.OrderByDescending(a => a.Precio).ToList();
+                        if (filtroAplicado && ddlMarca.Text != "0")
+                        {
+                            listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                        }
+                    }
+                    else if (filtroAplicado && ddlMarca.Text != "0")
+                    {
+                        listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                    }
+                }
+
+                repRepetidor.DataSource = listaFiltrada;
+                repRepetidor.DataBind();
+
+            }
         }
 
+        public void CargarMarcas()
+        {
+            MarcaNegocio negocio = new MarcaNegocio();
+            List<dominio.Marca> lista = negocio.listar();
+
+            ListItem marcaDefault = new ListItem("Marca", "0");
+            ddlMarca.Items.Insert(0, marcaDefault);
+
+            foreach (Marca marca in lista)
+            {
+                ListItem listItem = new ListItem(marca.Descripcion, marca.Id.ToString());
+                ddlMarca.Items.Add(listItem);
+            }
+        }
 
         protected void btnFavorito_Command(object sender, CommandEventArgs e)
         {
