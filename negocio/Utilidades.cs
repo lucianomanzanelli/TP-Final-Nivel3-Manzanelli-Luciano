@@ -36,12 +36,8 @@ namespace negocio
                 {
                     byte[] imageData = client.DownloadData(imageUrl);
                     // Si la solicitud se realiza correctamente, la URL es válida
-                    if (imageData.Length < 117000)
-                    {
                         return true;
-                    }
-                    else
-                        return false;
+                    
                 }
             }
             catch (WebException ex)

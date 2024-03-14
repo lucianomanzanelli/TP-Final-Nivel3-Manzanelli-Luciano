@@ -14,6 +14,8 @@ namespace WebStore_web
     public partial class Default : System.Web.UI.Page
     {
         public List<Articulo> ListaArticulos { get; set; }
+        public List<Articulo> ListaBusqueda { get; set; }
+
         List<int> lstFavoritos = new List<int> { };
         public bool EsBusqueda {  get; set; }
 
@@ -27,14 +29,15 @@ namespace WebStore_web
                 {
                     EsBusqueda = true;
 
-                    ListaArticulos = (List<Articulo>)Session["busqueda"];
+                    ListaBusqueda = (List<Articulo>)Session["busqueda"];
                     string txtBusqueda = Session["txtBusqueda"].ToString();
 
-                    Session.Add("filtroBusq", ListaArticulos);
+                    Session.Add("filtroBusq", ListaBusqueda);
 
                     CargarMarcas();
+                    CargarFavoritos();
 
-                    repRepetidor.DataSource = ListaArticulos;
+                    repRepetidor.DataSource = ListaBusqueda;
                     repRepetidor.DataBind();
 
                     if (!((IEnumerable)repRepetidor.DataSource).Cast<object>().Any())
@@ -50,81 +53,112 @@ namespace WebStore_web
                 else
                 {
                     EsBusqueda = false;
+                    ListaBusqueda = null;
 
                     ArticuloNegocio negocio = new ArticuloNegocio();
                     ListaArticulos = negocio.listar();
 
                     repRepetidor.DataSource = ListaArticulos;
 
-                    if (Seguridad.SesionActiva(Session["persona"]))
-                    {
-                        // Obtener el ID del usuario en sesión
-                        Persona persona = (Persona)Session["persona"];
-                        int idUsuario = persona.Id;
+                    CargarFavoritos();
 
-                        if (idUsuario != 0)
-                        {
-                            // Obtener los IDs de los artículos favoritos del usuario
-                            lstFavoritos = negocio.IDsFavoritos(idUsuario);
-                        }
+                    //if (Seguridad.SesionActiva(Session["persona"]))
+                    //{
+                    //    // Obtener el ID del usuario en sesión
+                    //    Persona persona = (Persona)Session["persona"];
+                    //    int idUsuario = persona.Id;
 
-                    }
+                    //    if (idUsuario != 0)
+                    //    {
+                    //        // Obtener los IDs de los artículos favoritos del usuario
+                    //        lstFavoritos = negocio.IDsFavoritos(idUsuario);
+                    //    }
+
+                    //}
 
                     repRepetidor.DataBind();
                 }
             }
+            else if(ListaArticulos == null && ListaBusqueda != null)
+            {
+                return;
+            }
             else
             {
-                EsBusqueda = true;
-                List<Articulo> listaFiltrada = (List<Articulo>)Session["filtroBusq"];
 
-                bool filtroAplicado = false;
-
-
-                //
-
-
-                // Verificar si se ha seleccionado un filtro distinto al precio
-                if ((ddlPrecio.Text == "Menor a mayor" || ddlPrecio.Text == "Mayor a menor") && ddlMarca.SelectedItem != null)
+                if (ListaArticulos == null && ListaBusqueda == null)
                 {
-                    filtroAplicado = true;
-                }
+                    
+                        EsBusqueda = true;
+                        List<Articulo> listaFiltrada = (List<Articulo>)Session["filtroBusq"];
 
-                if (ddlPrecio.Text == "0" && ddlMarca.Text == "0")
-                {
-                    //Carga la lista completa
-                }
-                else if (ddlPrecio.Text == "0" && ddlMarca.SelectedItem != null)
-                {
-                    listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
-                }
-                else
-                {
-                    // Aplicar filtros por marca y ordenamiento por precio
-                    if (ddlPrecio.Text == "Menor a mayor")
-                    {
-                        listaFiltrada = listaFiltrada.OrderBy(a => a.Precio).ToList();
-                        if (filtroAplicado && ddlMarca.Text != "0")
+                        bool filtroAplicado = false;
+
+
+                        if (int.TryParse(txtMin.Text, out int min) && int.TryParse(txtMax.Text, out int max) && min <= max)
+                            listaFiltrada = listaFiltrada.Where(a => a.Precio >= min && a.Precio <= max).ToList();
+
+
+                        // Verificar si se ha seleccionado un filtro distinto al precio
+                        if ((ddlPrecio.Text == "Menor a mayor" || ddlPrecio.Text == "Mayor a menor") && ddlMarca.SelectedItem != null)
+                        {
+                            filtroAplicado = true;
+                        }
+
+                        if (ddlPrecio.Text == "Precio" && ddlMarca.Text == "0")
+                        {
+                            //Carga la lista completa
+
+                        }
+                        else if (ddlPrecio.Text == "Precio" && ddlMarca.SelectedItem != null)
                         {
                             listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
                         }
-                    }
-                    else if (ddlPrecio.Text == "Mayor a menor")
-                    {
-                        listaFiltrada = listaFiltrada.OrderByDescending(a => a.Precio).ToList();
-                        if (filtroAplicado && ddlMarca.Text != "0")
+                        else
                         {
-                            listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                            if (ddlPrecio.Text == "Menor a mayor")
+                            {
+                                listaFiltrada = listaFiltrada.OrderBy(a => a.Precio).ToList();
+                                if (filtroAplicado && ddlMarca.Text != "0")
+                                {
+                                    listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                                }
+                            }
+                            else if (ddlPrecio.Text == "Mayor a menor")
+                            {
+                                listaFiltrada = listaFiltrada.OrderByDescending(a => a.Precio).ToList();
+                                if (filtroAplicado && ddlMarca.Text != "0")
+                                {
+                                    listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                                }
+                            }
+                            else if (filtroAplicado && ddlMarca.Text != "0")
+                            {
+                                listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                            }
                         }
-                    }
-                    else if (filtroAplicado && ddlMarca.Text != "0")
-                    {
-                        listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
-                    }
-                }
 
-                repRepetidor.DataSource = listaFiltrada;
-                repRepetidor.DataBind();
+                        repRepetidor.DataSource = listaFiltrada;
+                        repRepetidor.DataBind();
+                    
+                }
+            }
+        }
+
+        private void CargarFavoritos()
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            if (Seguridad.SesionActiva(Session["persona"]))
+            {
+                // Obtener el ID del usuario en sesión
+                Persona persona = (Persona)Session["persona"];
+                int idUsuario = persona.Id;
+
+                if (idUsuario != 0)
+                {
+                    // Obtener los IDs de los artículos favoritos del usuario
+                    lstFavoritos = negocio.IDsFavoritos(idUsuario);
+                }
 
             }
         }
@@ -216,7 +250,6 @@ namespace WebStore_web
                 }
             }
         }
-
 
     }
 }

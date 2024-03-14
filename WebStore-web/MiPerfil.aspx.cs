@@ -128,12 +128,23 @@ namespace WebStore_web
                 if (string.IsNullOrEmpty(img.ImageUrl))
                     img.ImageUrl = "~/Images/" + user.ImagenPerfil;
 
-                lblGuardar.ForeColor = Color.Green;
-                lblGuardar.Text = "Datos actualizados correctamente!";
-                Page.ClientScript.RegisterStartupScript(this.GetType(),
-                    "HideLabel", "setTimeout(function() { document.getElementById('" +
-                    lblGuardar.ClientID + "').innerHTML = ''; }, 3000);", true);
-                
+
+                if (lblNuevaClave.Text == "Tus contraseñas no coinciden!")
+                {
+                    lblGuardar.ForeColor = Color.Red;
+                    lblGuardar.Text = "Tu contraseña NO se actualizó!";
+                    Page.ClientScript.RegisterStartupScript(this.GetType(),
+                        "HideLabel", "setTimeout(function() { document.getElementById('" +
+                        lblGuardar.ClientID + "').innerHTML = ''; }, 4000);", true);
+                }
+                else
+                {
+                    lblGuardar.ForeColor = Color.Green;
+                    lblGuardar.Text = "Datos actualizados correctamente!";
+                    Page.ClientScript.RegisterStartupScript(this.GetType(),
+                        "HideLabel", "setTimeout(function() { document.getElementById('" +
+                        lblGuardar.ClientID + "').innerHTML = ''; }, 3000);", true);
+                }             
 
                 cargarImagen();
 

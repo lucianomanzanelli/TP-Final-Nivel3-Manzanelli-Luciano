@@ -2,10 +2,18 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script>
-        window.onload = function () {
-            var ddl = document.getElementById('ddlPrecio');
-            ddl.options[0].disabled = true;
-        };
+        function soloNumeros(event) {
+            // Obtener el código de la tecla presionada
+            var key = event.keyCode || event.which;
+
+            // Permitir solo números (0-9), la tecla Backspace, y las teclas de navegación (flechas, inicio, fin)
+            if (key < 48 || key > 57) {
+                if (key != 8 && key != 37 && key != 39 && key != 36 && key != 35) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -23,8 +31,8 @@
             </div>
             <div class="col-md-3 text-start">
                 <asp:DropDownList runat="server" CssClass="form-control" ID="ddlPrecio" AutoPostBack="true" ClientIDMode="Static">
-                    <asp:ListItem Text="Precio" Value="0" />
-                    <asp:ListItem Text="Menor a mayor"/>
+                    <asp:ListItem Text="Precio" />
+                    <asp:ListItem Text="Menor a mayor" />
                     <asp:ListItem Text="Mayor a menor" />
                 </asp:DropDownList>
             </div>
@@ -34,13 +42,25 @@
             <div class="col-md-4 text-start">
                 <div class="row">
                     <div class="col-md-3 text-start">
-                        <asp:TextBox runat="server" ID="txtMin" placeholder="Min" CssClass="form-control" Style="width: 60px;" />
+                        <asp:TextBox runat="server" ID="txtMin" placeholder="Min" CssClass="form-control" Style="width: 60px;" onkeypress="return soloNumeros(event)" />
+                        <asp:RegularExpressionValidator runat="server"
+                            ControlToValidate="txtMin"
+                            ValidationExpression="^\d+$"
+                            ErrorMessage="Solo números."
+                            Display="Dynamic"
+                            CssClass="invalid-feedback" />
                     </div>
                     <div class="col-md-1 text-center">
                         <span>-</span>
                     </div>
                     <div class="col-md-3 text-start">
-                        <asp:TextBox runat="server" ID="txtMax" placeholder="Max" CssClass="form-control" Style="width: 60px;" />
+                        <asp:TextBox runat="server" ID="txtMax" placeholder="Max" CssClass="form-control" Style="width: 60px;" onkeypress="return soloNumeros(event)" />
+                        <asp:RegularExpressionValidator runat="server"
+                            ControlToValidate="txtMax"
+                            ValidationExpression="^\d+$"
+                            ErrorMessage="Solo números."
+                            Display="Dynamic"
+                            CssClass="invalid-feedback" />
                     </div>
                     <div class="col-md-2">
                         <button type="submit" data-test-id="sendButton" class="btn btn-success">></button>
@@ -49,11 +69,11 @@
             </div>
         </div>
     </div>
-     <% } %>
+    <% } %>
 
     <div class="container">
         <div class="row row-cols-1 row-cols-md-5 g-4">
-            <asp:Repeater ID="repRepetidor" runat="server" OnItemDataBound="repRepetidor_ItemDataBound">
+            <asp:Repeater ID="repRepetidor" runat="server" OnItemDataBound="repRepetidor_ItemDataBound" >
                 <ItemTemplate>
 
                     <div class="col-lg-3 col-md-5 col-sm-7">
