@@ -17,7 +17,7 @@ namespace WebStore_web
         public List<Articulo> ListaBusqueda { get; set; }
 
         List<int> lstFavoritos = new List<int> { };
-        public bool EsBusqueda {  get; set; }
+        public bool EsBusqueda { get; set; }
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -58,90 +58,69 @@ namespace WebStore_web
                     ArticuloNegocio negocio = new ArticuloNegocio();
                     ListaArticulos = negocio.listar();
 
-                    repRepetidor.DataSource = ListaArticulos;
-
                     CargarFavoritos();
 
-                    //if (Seguridad.SesionActiva(Session["persona"]))
-                    //{
-                    //    // Obtener el ID del usuario en sesión
-                    //    Persona persona = (Persona)Session["persona"];
-                    //    int idUsuario = persona.Id;
-
-                    //    if (idUsuario != 0)
-                    //    {
-                    //        // Obtener los IDs de los artículos favoritos del usuario
-                    //        lstFavoritos = negocio.IDsFavoritos(idUsuario);
-                    //    }
-
-                    //}
-
+                    repRepetidor.DataSource = ListaArticulos;
                     repRepetidor.DataBind();
                 }
             }
-            else if(ListaArticulos == null && ListaBusqueda != null)
+            else if (ddlMarca.SelectedItem == null)
             {
                 return;
             }
             else
             {
+                EsBusqueda = true;
+                List<Articulo> listaFiltrada = (List<Articulo>)Session["filtroBusq"];
 
-                if (ListaArticulos == null && ListaBusqueda == null)
+                bool filtroAplicado = false;
+
+
+                if (int.TryParse(txtMin.Text, out int min) && int.TryParse(txtMax.Text, out int max) && min <= max)
+                    listaFiltrada = listaFiltrada.Where(a => a.Precio >= min && a.Precio <= max).ToList();
+
+
+                // Verificar si se ha seleccionado un filtro distinto al precio
+                if ((ddlPrecio.Text == "Menor a mayor" || ddlPrecio.Text == "Mayor a menor") && ddlMarca.SelectedItem != null)
                 {
-                    
-                        EsBusqueda = true;
-                        List<Articulo> listaFiltrada = (List<Articulo>)Session["filtroBusq"];
+                    filtroAplicado = true;
+                }
 
-                        bool filtroAplicado = false;
+                if (ddlPrecio.Text == "Precio" && ddlMarca.Text == "0")
+                {
+                    //Carga la lista completa
 
-
-                        if (int.TryParse(txtMin.Text, out int min) && int.TryParse(txtMax.Text, out int max) && min <= max)
-                            listaFiltrada = listaFiltrada.Where(a => a.Precio >= min && a.Precio <= max).ToList();
-
-
-                        // Verificar si se ha seleccionado un filtro distinto al precio
-                        if ((ddlPrecio.Text == "Menor a mayor" || ddlPrecio.Text == "Mayor a menor") && ddlMarca.SelectedItem != null)
-                        {
-                            filtroAplicado = true;
-                        }
-
-                        if (ddlPrecio.Text == "Precio" && ddlMarca.Text == "0")
-                        {
-                            //Carga la lista completa
-
-                        }
-                        else if (ddlPrecio.Text == "Precio" && ddlMarca.SelectedItem != null)
+                }
+                else if (ddlPrecio.Text == "Precio" && ddlMarca.SelectedItem != null)
+                {
+                    listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                }
+                else
+                {
+                    if (ddlPrecio.Text == "Menor a mayor")
+                    {
+                        listaFiltrada = listaFiltrada.OrderBy(a => a.Precio).ToList();
+                        if (filtroAplicado && ddlMarca.Text != "0")
                         {
                             listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
                         }
-                        else
+                    }
+                    else if (ddlPrecio.Text == "Mayor a menor")
+                    {
+                        listaFiltrada = listaFiltrada.OrderByDescending(a => a.Precio).ToList();
+                        if (filtroAplicado && ddlMarca.Text != "0")
                         {
-                            if (ddlPrecio.Text == "Menor a mayor")
-                            {
-                                listaFiltrada = listaFiltrada.OrderBy(a => a.Precio).ToList();
-                                if (filtroAplicado && ddlMarca.Text != "0")
-                                {
-                                    listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
-                                }
-                            }
-                            else if (ddlPrecio.Text == "Mayor a menor")
-                            {
-                                listaFiltrada = listaFiltrada.OrderByDescending(a => a.Precio).ToList();
-                                if (filtroAplicado && ddlMarca.Text != "0")
-                                {
-                                    listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
-                                }
-                            }
-                            else if (filtroAplicado && ddlMarca.Text != "0")
-                            {
-                                listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
-                            }
+                            listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
                         }
-
-                        repRepetidor.DataSource = listaFiltrada;
-                        repRepetidor.DataBind();
-                    
+                    }
+                    else if (filtroAplicado && ddlMarca.Text != "0")
+                    {
+                        listaFiltrada = listaFiltrada.Where(x => x.Marca.Descripcion.ToLower().Contains(ddlMarca.SelectedItem.Text.ToLower())).ToList();
+                    }
                 }
+
+                repRepetidor.DataSource = listaFiltrada;
+                repRepetidor.DataBind();
             }
         }
 
